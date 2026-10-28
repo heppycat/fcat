@@ -27,6 +27,13 @@ jobs:
       # Validates the wrapper jar checksum and caches Gradle state.
       - uses: gradle/actions/setup-gradle@v6
 
+      # The PDFium JNI layer needs the NDK and CMake versions pinned in the version catalog.
+      - name: Install NDK and CMake
+        run: |
+          ndk=$(sed -n 's/^ndk = "\(.*\)"$/\1/p' gradle/libs.versions.toml)
+          cmake=$(sed -n 's/^cmake = "\(.*\)"$/\1/p' gradle/libs.versions.toml)
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;$ndk" "cmake;$cmake" > /dev/null
+
       - name: Build, lint, unit test
         run: ./gradlew --console=plain assembleDebug lintDebug testDebugUnitTest
 

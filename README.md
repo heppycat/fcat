@@ -39,7 +39,8 @@ in [docs/PRODUCT.md](docs/PRODUCT.md).
 
 ## Building
 
-You need JDK 17 and the Android SDK with platform `android-37.0`.
+You need JDK 17, the Android SDK with platform `android-37.0`, and the NDK and
+CMake versions pinned in `gradle/libs.versions.toml`.
 
 ```sh
 ./gradlew assembleDebug
