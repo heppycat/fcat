@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">fcat</string>
     <string name="tagline">Read smoothly. Stay curious.</string>
+    <string name="open_pdf">Open PDF</string>
+    <string name="loading">Opening document</string>
+    <string name="first_page_description">First page of the document</string>
+    <string name="error_open">This file could not be opened as a PDF.</string>
+    <string name="error_password">This PDF is password-protected. Protected PDFs are not supported yet.</string>
 </resources>

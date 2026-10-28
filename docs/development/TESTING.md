@@ -5,12 +5,16 @@
 | Layer | Location | Runs on | Use for |
 |---|---|---|---|
 | Unit | `app/src/test/` | JVM, `./gradlew testDebugUnitTest` | Pure logic: layout maths, tile scheduling, position encoding, outline/page-label parsing |
-| Instrumented | `app/src/androidTest/` (from M1) | Device/emulator, `./gradlew connectedDebugAndroidTest` | Engine binding, SAF access, position restore across process death, Compose UI |
+| Instrumented | `app/src/androidTest/` | Device/emulator, `./gradlew connectedDebugAndroidTest` | Engine binding, SAF access, position restore across process death, Compose UI |
 | Macrobenchmark | `:benchmark` module (from M1) | Physical device | The metrics in [PERFORMANCE.md](../PERFORMANCE.md) |
 | Lint | `./gradlew lintDebug` | JVM | Android API misuse, accessibility, resources |
 
-Today only lint and the (empty) unit-test task exist. Tests arrive with the first
-real code in M1. No test exists merely to make CI show a number.
+No test exists merely to make CI show a number.
+
+Instrumented engine tests use small PDFs in `app/src/androidTest/assets/`, written by
+`app/src/androidTest/make_fixtures.py`. Its docstring documents what each fixture
+contains, which is what the tests assert against. CI does not run instrumented tests
+yet: run `connectedDebugAndroidTest` locally on a device or emulator.
 
 ## Rules
 
