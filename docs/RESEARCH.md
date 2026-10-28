@@ -96,19 +96,37 @@ It is valuable as a **baseline** to benchmark against.
 - It bundles third-party code (FreeType, libjpeg-turbo, OpenJPEG, lcms2, zlib,
   abseil, …), each under its own permissive licence. A full audit is outstanding.
 - `bblanchon/pdfium-binaries` publishes prebuilt Android binaries (arm, arm64, x86,
-  x64) automatically. Latest release `chromium/8125` was published 2026-10-26. It is
-  not affiliated with Google. [Doc]
+  x64) automatically, weekly. It is not affiliated with Google. Release `chromium/8125`
+  (PDFium 158.0.8125.0) was published 2026-10-26. [Doc]
+  - Releases are immutable, and GitHub shows a SHA-256 digest per asset. [Doc]
+  - Each archive ships the `args.gn` it was built with, the public headers, and the
+    third-party licence texts (`licenses/`). [Checked: `chromium/8125` arm archive]
+  - The non-V8 variant has `pdf_enable_v8 = false` (no JavaScript) and
+    `pdf_enable_xfa = false`. [Checked: its `args.gn`]
+  - Its `libpdfium.so` needs only libc, libm and libdl, so no shared C++ runtime.
+    [Checked: `readelf -d`]
 - Android wrappers:
   - `barteksc/AndroidPdfViewer`, now `DImuthuUpe/AndroidPdfViewer`: Apache-2.0,
     PdfiumAndroid-based. Its README says "looking for contributors to bring the
     project back to track" and it still references jcenter. [Doc]
-  - There is no maintained, first-party Kotlin binding. We would write and own a
-    JNI layer.
+  - `io.legere:pdfiumandroid` (`johngray1965/PdfiumAndroidKt`) **is** a maintained
+    Kotlin binding. It is Apache-2.0 and on Maven Central; 2.0.3 is stable (2026-07-26)
+    and 3.0.x is in alpha. Its API has coroutines, opening from a
+    `ParcelFileDescriptor`, and rendering into a `Bitmap`. [Doc; checked: 2.0.3 AAR]
+    - It bundles a prebuilt `libpdfium.so` whose source and version are not
+      documented. The file has no version string, was last updated 2026-02-11, and
+      matches none of bblanchon's arm64 builds `chromium/7643`–`7678`. [Checked]
+    - It also brings Guava and its own global lock. [Checked: POM]
+    - For these reasons M1 uses our own small JNI layer on a pinned bblanchon build
+      instead. That decision was made in M1b, 2026-10-28.
 - PDFium's public API (`fpdfview.h`, `fpdf_text.h`, `fpdf_doc.h`, `fpdf_annot.h`)
   covers rendering, text, search, bookmarks/outline and annotations. [Doc]
-- PDFium is not thread-safe per library instance; concurrent use needs external
-  serialisation or separate processes. [Doc: pdfium public headers; to re-verify
-  during the prototype]
+- `fpdfview.h`: "None of the PDFium APIs are thread-safe. They expect to be called
+  from a single thread." Embedders must make sure only one PDFium call runs at a
+  time. [Doc: `public/fpdfview.h`, main, 2026-10-28]
+- F-Droid accepts library dependencies only if they are "built from source or provided
+  in a trusted Maven repo". A tarball from GitHub releases is neither, so shipping
+  PDFium on F-Droid would need a PDFium source build. [Doc: F-Droid Inclusion Policy]
 
 **Implications.** Permissive licensing and full control. The cost is real: we would
 own the JNI surface, the build or binary sourcing, and **security updates** for a
@@ -246,7 +264,7 @@ list.
 | Q3 | Which `androidx.pdf` features work on the compat path (API 28–29, or ext < 13)? | Prototype on an API 28 emulator |
 | Q4 | Rendering fidelity on tricky academic PDFs (Type 3 fonts, large vector figures, scanned + OCR layers) | Visual diff in the bake-off corpus |
 | Q5 | Is MuPDF's official Maven artifact usable in CI and reproducible builds (hosting, checksums)? Or should we vendor or build it from source for F-Droid? | M1 + F-Droid inclusion policy review |
-| Q6 | PDFium thread-safety specifics, and whether one document instance per worker is viable for memory | M1, only if PDFium stays in contention |
+| Q6 | PDFium thread-safety specifics, and whether one document instance per worker is viable for memory | Partly answered: no PDFium call may run concurrently (`fpdfview.h`), so M1 uses one engine thread. Per-process isolation only if PDFium wins |
 | Q7 | Final `applicationId` and repository owner | Maintainer decision before first release (ADR 0004) |
 
 ## Sources
@@ -264,6 +282,10 @@ list.
 - PDFium: <https://pdfium.googlesource.com/pdfium/>
 - pdfium-binaries: <https://github.com/bblanchon/pdfium-binaries>
 - AndroidPdfViewer: <https://github.com/barteksc/AndroidPdfViewer>
+- PdfiumAndroidKt: <https://github.com/johngray1965/PdfiumAndroidKt>, and the
+  `io.legere:pdfiumandroid` 2.0.3 artifacts on Maven Central (inspected 2026-10-28)
+- PDFium threading note: <https://pdfium.googlesource.com/pdfium/+/refs/heads/main/public/fpdfview.h>
+- F-Droid Inclusion Policy: <https://f-droid.org/docs/Inclusion_Policy/>
 - GrapheneOS PdfViewer: <https://github.com/GrapheneOS/PdfViewer>
 - Librera: <https://github.com/foobnix/LibreraReader>
 - Document Viewer: <https://github.com/SufficientlySecure/document-viewer>

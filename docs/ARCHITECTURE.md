@@ -16,7 +16,7 @@ in code yet.
 │   │             tile scheduling, bitmap cache        (planned, M1–M2)             │
 │   │                                                                              │
 │  engine/        PdfEngine interface + one implementation (MuPDF or PDFium)       │
-│   │             All native/JNI code lives behind this line (MuPDF in place, M1)  │
+│   │             All native/JNI code lives behind this line (MuPDF, PDFium; M1)   │
 │   │                                                                              │
 │  library/       Recent documents, reading positions (local storage)  (planned)   │
 │                                                                                  │
@@ -95,11 +95,14 @@ Present:
 - kotlinx-coroutines (already pulled in by Compose, now declared because the app
   uses it directly);
 - MuPDF `com.artifex.mupdf:fitz`, a bake-off candidate until ADR 0002 is accepted;
+- PDFium, the other bake-off candidate: the prebuilt non-V8 Android build from
+  `bblanchon/pdfium-binaries`, pinned by tag and SHA-256, behind our own JNI layer
+  (`app/src/main/cpp/`). Built with the NDK and CMake;
 - JUnit 4 for unit tests, AndroidX Test (runner, ext-junit) for instrumented tests.
 
 Planned:
 
-- the PDFium challenger, then removal of the losing engine (M1);
+- removal of the losing engine (M1);
 - AndroidX Benchmark / Macrobenchmark and Baseline Profiles (M1);
 - a persistence library (M2).
 

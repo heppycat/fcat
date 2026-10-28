@@ -8,11 +8,19 @@
   Gradle.
 - **Android SDK** with platform `android-37.0`. Android Studio installs it, or use
   `sdkmanager "platforms;android-37.0"`.
+- **NDK and CMake**, at the versions `ndk` and `cmake` in
+  `gradle/libs.versions.toml`, for the PDFium JNI layer in `app/src/main/cpp/`.
+  For example `sdkmanager "ndk;30.0.16248370" "cmake;4.1.2"`.
 - Git. Any editor. Android Studio gives the best Compose preview and profiler
   support.
 
 Gradle itself is fetched by the wrapper (`./gradlew`). Its download is pinned by
 SHA-256 in `gradle/wrapper/gradle-wrapper.properties`.
+
+The first build also downloads prebuilt PDFium for each ABI from
+`github.com/bblanchon/pdfium-binaries` into `app/build/pdfium/`. The release tag and
+each archive's SHA-256 are pinned in the version catalog, and the build fails on a
+mismatch.
 
 ## Build
 
