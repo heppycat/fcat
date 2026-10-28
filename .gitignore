@@ -1,0 +1,51 @@
+# Gradle / build outputs
+.gradle/
+.kotlin/
+build/
+captures/
+*.apk
+*.aab
+*.ap_
+*.dex
+output-metadata.json
+
+# Local configuration (SDK path, personal properties, proxies)
+local.properties
+gradle-local.properties
+
+# IDEs and editors
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.fleet/
+*.swp
+*~
+.DS_Store
+
+# Native builds
+.cxx/
+.externalNativeBuild/
+
+# Signing material and secrets: never commit
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+keystore.properties
+signing.properties
+google-services.json
+.env
+.env.*
+
+# Logs, profiling, local test documents
+*.log
+*.hprof
+*.trace
+*.perfetto-trace
+benchmark-corpus/local/
+
+# Agent scratch files
+AI/scratch/

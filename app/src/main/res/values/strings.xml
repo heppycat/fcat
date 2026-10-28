@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name" translatable="false">fcat</string>
+    <string name="tagline">Read smoothly. Stay curious.</string>
+</resources>

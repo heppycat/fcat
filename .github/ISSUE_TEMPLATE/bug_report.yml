@@ -1,0 +1,50 @@
+name: Bug report
+description: Something does not work as it should.
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. **Security issues go through SECURITY.md, not here.**
+        Please don't attach private or copyrighted documents; describe them or use a public one.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Zoom to ...
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: fcat version or commit
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and Android version
+      placeholder: e.g. Pixel 8, Android 16
+    validations:
+      required: true
+  - type: textarea
+    id: document
+    attributes:
+      label: Document
+      description: A public link to a PDF that triggers it, or a description (pages, size, scanned or text, source app).
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Optional. `adb logcat` output around the problem is very helpful.
+      render: text
