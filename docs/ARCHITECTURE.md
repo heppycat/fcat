@@ -1,7 +1,9 @@
 # Architecture
 
-Status: **M0**. Only the placeholder app exists. This document describes the
-intended shape. Sections marked *planned* do not exist in code yet.
+Status: **M1 in progress**. `engine/` holds `PdfEngine` and its MuPDF
+implementation. The app opens a PDF from the system picker and shows its first page.
+This document describes the intended shape. Sections marked *planned* do not exist
+in code yet.
 
 ## Boundaries
 
@@ -14,7 +16,7 @@ intended shape. Sections marked *planned* do not exist in code yet.
 │   │             tile scheduling, bitmap cache        (planned, M1–M2)             │
 │   │                                                                              │
 │  engine/        PdfEngine interface + one implementation (MuPDF or PDFium)       │
-│   │             All native/JNI code lives behind this line (planned, M1)         │
+│   │             All native/JNI code lives behind this line (MuPDF in place, M1)  │
 │   │                                                                              │
 │  library/       Recent documents, reading positions (local storage)  (planned)   │
 │                                                                                  │
@@ -87,12 +89,17 @@ Rules:
 
 ## Dependencies
 
-Present: AndroidX Core, Activity Compose, Lifecycle, Compose BOM and Material 3.
-JUnit 4 for unit tests.
+Present:
+
+- AndroidX Core, Activity Compose, Lifecycle, Compose BOM and Material 3;
+- kotlinx-coroutines (already pulled in by Compose, now declared because the app
+  uses it directly);
+- MuPDF `com.artifex.mupdf:fitz`, a bake-off candidate until ADR 0002 is accepted;
+- JUnit 4 for unit tests, AndroidX Test (runner, ext-junit) for instrumented tests.
 
 Planned:
 
-- the chosen engine (M1);
+- the PDFium challenger, then removal of the losing engine (M1);
 - AndroidX Benchmark / Macrobenchmark and Baseline Profiles (M1);
 - a persistence library (M2).
 

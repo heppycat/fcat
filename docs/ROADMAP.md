@@ -1,7 +1,7 @@
 # Roadmap
 
 Milestones are sequential. Each one ends when its acceptance criteria are met, not
-on a date. Status as of 2026-10-28: **M0 done; M1 next.**
+on a date. Status as of 2026-10-28: **M0 done; M1 in progress** (MuPDF engine in place).
 
 ## M0: Foundation
 

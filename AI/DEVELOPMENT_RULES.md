@@ -20,7 +20,9 @@ Hard rules. If a task seems to require breaking one, stop and ask.
   - size.
 - Versions go only in `gradle/libs.versions.toml`. Never use dynamic versions
   (`+`, `latest.release`).
-- Never add repositories, mirrors or proxies to the build files.
+- Never add mirrors or proxies to the build files. Add a repository only for an
+  artifact published nowhere else, declared with `exclusiveContent` for that group
+  alone, and justified in the PR. Today that is MuPDF on `maven.ghostscript.com`.
 
 ## Abstractions
 
