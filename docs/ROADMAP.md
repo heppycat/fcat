@@ -1,7 +1,7 @@
 # Roadmap
 
 Milestones are sequential. Each one ends when its acceptance criteria are met, not
-on a date. Status as of 2026-10-28: **M0 in progress.**
+on a date. Status as of 2026-10-28: **M0 done; M1 next.**
 
 ## M0: Foundation
 
@@ -11,8 +11,8 @@ Repository, documentation, build, CI.
 - [x] Licence decision (ADR 0003)
 - [x] Gradle project with a placeholder Compose app; debug build and lint pass locally
 - [x] CI workflow building, linting and unit-testing on every PR
-- [ ] Public GitHub repository created (maintainer action)
-- [ ] First CI run green on GitHub
+- [x] Public GitHub repository created
+- [x] First CI run green on GitHub
 
 ## M1: Engine bake-off and first pixels
 
